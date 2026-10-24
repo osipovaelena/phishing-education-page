@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>You clicked a simulated phishing link — Holmesglen security awareness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#eef2f5; --surface:#ffffff; --surface-2:#f6f9fb;
+    --ink:#16293a; --ink-soft:#4a5c6c; --line:#d8e1e8;
+    --teal:#0e7c74; --teal-deep:#0a5a54; --teal-tint:#e4f1ef;
+    --amber:#9c5410; --amber-tint:#fbf0df; --amber-line:#e6ba7f;
+    --serif:"Spectral", Georgia, "Times New Roman", serif;
+    --sans:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    box-sizing:border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --paper:#0b1620; --surface:#122434; --surface-2:#0f1f2d;
+      --ink:#e8eef3; --ink-soft:#a6b7c4; --line:#24394a;
+      --teal:#3ac7ba; --teal-deep:#8fe0d6; --teal-tint:#11322e;
+      --amber:#f0b45e; --amber-tint:#2c2011; --amber-line:#5f431d;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --paper:#0b1620; --surface:#122434; --surface-2:#0f1f2d;
+    --ink:#e8eef3; --ink-soft:#a6b7c4; --line:#24394a;
+    --teal:#3ac7ba; --teal-deep:#8fe0d6; --teal-tint:#11322e;
+    --amber:#f0b45e; --amber-tint:#2c2011; --amber-line:#5f431d;
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top: env(safe-area-inset-top, 0px);}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 22px;}
+  a{color:var(--teal-deep); text-underline-offset:2px;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) a{color:var(--teal-deep)}}
+  h1,h2,h3{font-family:var(--serif); font-weight:500; line-height:1.2; letter-spacing:-0.01em; color:var(--ink);}
+
+  /* ---- top band ---- */
+  .band{background:var(--surface); border-bottom:1px solid var(--line);}
+  .band-inner{padding:46px 0 40px;}
+  .tag{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:13.5px; font-weight:600; color:var(--teal-deep);
+    background:var(--teal-tint); border:1px solid color-mix(in srgb, var(--teal) 30%, transparent);
+    padding:7px 13px 7px 11px; border-radius:999px; letter-spacing:.005em;
+  }
+  .tag .dot{width:9px; height:9px; border-radius:50%; background:var(--teal); flex:none;}
+  h1{font-size:clamp(30px, 6.2vw, 44px); margin:22px 0 0;}
+  .lede{font-size:clamp(17px,2.4vw,19px); color:var(--ink-soft); margin:16px 0 0; max-width:60ch;}
+  .reassure{
+    margin-top:28px; display:grid; gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:12px; overflow:hidden;
+    grid-template-columns:repeat(3,1fr);
+  }
+  .reassure div{background:var(--surface-2); padding:15px 16px;}
+  .reassure strong{display:block; font-family:var(--serif); font-size:17px; font-weight:600; color:var(--ink);}
+  .reassure span{font-size:13.5px; color:var(--ink-soft);}
+  @media (max-width:560px){ .reassure{grid-template-columns:1fr;} }
+
+  /* ---- sections ---- */
+  section{padding:40px 0; border-bottom:1px solid var(--line);}
+  .eyebrow{display:flex; align-items:center; gap:9px; font-size:13.5px; font-weight:600; color:var(--teal-deep); margin:0 0 6px;}
+  .eyebrow::before{content:""; width:16px; height:2px; background:var(--teal); border-radius:2px;}
+  h2{font-size:clamp(22px,3.6vw,27px); margin:0 0 14px;}
+  p{margin:0 0 15px;} p:last-child{margin-bottom:0;}
+  .muted{color:var(--ink-soft);}
+
+  /* ---- tabs ---- */
+  .tabs{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 20px;}
+  .tab{
+    font-family:var(--sans); font-size:14.5px; font-weight:600; color:var(--ink-soft);
+    background:transparent; border:1px solid var(--line); border-radius:9px;
+    padding:9px 14px; cursor:pointer; transition:color .12s, border-color .12s, background .12s;
+  }
+  .tab:hover{color:var(--ink);}
+  .tab[aria-selected="true"]{color:#fff; background:var(--teal); border-color:var(--teal);}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tab[aria-selected="true"]{color:#07201d;}}
+  :root[data-theme="dark"] .tab[aria-selected="true"]{color:#07201d;}
+  .tab:focus-visible, a:focus-visible, .tab-panel:focus-visible{outline:3px solid var(--teal); outline-offset:2px; border-radius:6px;}
+
+  /* ---- mock email ---- */
+  .mail{
+    border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--surface);
+    box-shadow:0 10px 30px -22px rgba(11,22,32,.55);
+  }
+  .mail-head{padding:16px 18px; border-bottom:1px solid var(--line); background:var(--surface-2); font-size:14.5px;}
+  .mail-row{display:flex; gap:8px; margin:3px 0;}
+  .mail-row .k{color:var(--ink-soft); min-width:58px; flex:none;}
+  .mail-row .v{color:var(--ink); word-break:break-word;}
+  .mail-body{padding:18px; font-size:15.5px;}
+  .mail-body p{margin:0 0 12px;}
+  .cta-fake{
+    display:inline-block; margin:6px 0 2px; background:var(--teal-deep); color:#fff;
+    padding:10px 18px; border-radius:7px; font-weight:600; font-size:14.5px; text-decoration:none;
+  }
+  .pin{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:21px; height:21px; border-radius:50%; background:var(--amber); color:#fff;
+    font-size:12.5px; font-weight:700; font-family:var(--sans); vertical-align:middle;
+    margin:0 3px; flex:none;
+  }
+  .flag-list{margin:18px 0 0; padding:0; list-style:none; counter-reset:f;}
+  .flag-list li{
+    position:relative; padding:12px 14px 12px 46px; border:1px solid var(--line);
+    border-left:3px solid var(--amber-line); border-radius:10px; margin:8px 0; background:var(--amber-tint);
+    font-size:15px;
+  }
+  .flag-list li .n{
+    position:absolute; left:12px; top:12px;
+    width:22px; height:22px; border-radius:50%; background:var(--amber); color:#fff;
+    font-size:12.5px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  }
+  .flag-list li b{color:var(--ink);}
+
+  /* ---- generic checklist ---- */
+  .checklist{list-style:none; margin:0; padding:0;}
+  .checklist li{position:relative; padding:11px 0 11px 34px; border-bottom:1px solid var(--line);}
+  .checklist li:last-child{border-bottom:0;}
+  .checklist li::before{
+    content:""; position:absolute; left:4px; top:17px; width:14px; height:14px;
+    border:2px solid var(--teal); border-radius:4px;
+  }
+  .checklist li b{color:var(--ink);}
+
+  /* ---- steps ---- */
+  .steps{counter-reset:s; display:grid; gap:12px; margin:4px 0 0;}
+  .step{
+    display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;
+    padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);
+  }
+  .step .s-no{
+    font-family:var(--serif); font-size:20px; font-weight:600; color:var(--teal-deep);
+    width:34px; height:34px; border-radius:50%; background:var(--teal-tint);
+    display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .step h3{font-size:17px; margin:2px 0 5px;}
+  .step p{font-size:15px; margin:0; color:var(--ink-soft);}
+  .step p b{color:var(--ink);}
+
+  /* ---- protect grid ---- */
+  .protect{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:4px;}
+  @media (max-width:560px){ .protect{grid-template-columns:1fr;} }
+  .protect .item{padding:15px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .protect .item h3{font-size:16px; margin:0 0 5px;}
+  .protect .item p{font-size:14.5px; margin:0; color:var(--ink-soft);}
+
+  /* ---- learn more links ---- */
+  .links{list-style:none; margin:4px 0 0; padding:0;}
+  .links li{border-bottom:1px solid var(--line);}
+  .links li:last-child{border-bottom:0;}
+  .links a{display:flex; justify-content:space-between; align-items:center; gap:14px;
+    padding:14px 2px; text-decoration:none; color:var(--ink); font-weight:500;}
+  .links a:hover{color:var(--teal-deep);}
+  .links a span{font-size:13.5px; color:var(--ink-soft); font-weight:400; text-align:right;}
+
+  /* ---- footer ---- */
+  footer{padding:36px 0 56px; color:var(--ink-soft); font-size:14px;}
+  footer .note{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin-bottom:22px;}
+  footer .note b{color:var(--ink);}
+  .refs{font-size:13px; line-height:1.7;}
+  .refs h3{font-size:14px; margin:0 0 7px; font-family:var(--sans); font-weight:700; color:var(--ink);}
+  .refs a{word-break:break-word;}
+  .ph{color:var(--amber); font-weight:600;}
+
+  @media (prefers-reduced-motion: no-preference){
+    .band-inner{animation:rise .5s ease both;}
+    @keyframes rise{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+  }
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="wrap band-inner">
+    <span class="tag"><span class="dot"></span>Security awareness exercise · Authorised simulation</span>
+    <h1>That link was a simulated phishing test — and you’re completely safe.</h1>
+    <p class="lede">This exercise was run by <span class="ph">[your IT Security / project team]</span> to help Holmesglen staff recognise the real thing. No systems were affected, and the details you entered were not stored or used. Take two minutes to see exactly what gave this one away.</p>
+    <div class="reassure">
+      <div><strong>✅ It was a test</strong><span>No attacker was involved.</span></div>
+      <div><strong>🔒 Nothing was kept</strong><span>Your login wasn’t stored.</span></div>
+      <div><strong>🙂 You’re not in trouble</strong><span>This is for learning.</span></div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section>
+    <p class="eyebrow">What just happened</p>
+    <h2>🎣 A routine-looking email led you to a fake login page</h2>
+    <p>You received a message designed to look like an everyday Holmesglen notice, so you’d act on it without a second thought. The link opened a page that imitated a real sign-in screen. On a genuine attack, anything typed there goes straight to a criminal — who can then reach your email, student and staff records, payroll, and anything else your account unlocks.</p>
+    <p class="muted">The good news: the signs were all there. Here’s how to catch them next time.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Spot the red flags</p>
+    <h2>🚩 The warning signs in that message</h2>
+    <p class="muted" style="margin-bottom:18px;">Pick the scenario that matches the email you received. The numbered markers point to each tell.</p>
+
+    <div class="tabs" role="tablist" aria-label="Phishing scenarios">
+      <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true">Attendance portal</button>
+      <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">Payroll / payslip</button>
+      <button class="tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">Webex invite</button>
+    </div>
+
+    <!-- Panel 1 -->
+    <div class="tab-panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" tabindex="0">
+      <div class="mail">
+        <div class="mail-head">
+          <div class="mail-row"><span class="k">From</span><span class="v">Holmesglen IT Services &lt;notifications@my-holmesglen-portal.com&gt; <span class="pin">1</span></span></div>
+          <div class="mail-row"><span class="k">To</span><span class="v">Staff Member</span></div>
+          <div class="mail-row"><span class="k">Subject</span><span class="v">Action required: your my.holmesglen.edu.au session has expired <span class="pin">2</span></span></div>
+        </div>
+        <div class="mail-body">
+          <p>Dear Staff Member, <span class="pin">3</span></p>
+          <p>Your portal session has expired. To submit today’s attendance roll you must re-authenticate within 30 minutes, or your access will be suspended. <span class="pin">4</span></p>
+          <p><a class="cta-fake" href="#0" onclick="return false;">Re-authenticate now</a> <span class="pin">5</span></p>
+        </div>
+      </div>
+      <ul class="flag-list">
+        <li><span class="n">1</span><b>Look-alike sender domain.</b> Genuine Holmesglen mail comes from <b>@holmesglen.edu.au</b> — not a near-copy like “my-holmesglen-portal.com”.</li>
+        <li><span class="n">2</span><b>Manufactured urgency and a threat.</b> “Within 30 minutes” and “access will be suspended” are there to make you rush.</li>
+        <li><span class="n">3</span><b>Generic greeting.</b> A real system that knows you would use your name, not “Dear Staff Member”.</li>
+        <li><span class="n">4</span><b>Pressure on a habit.</b> Marking the roll is a daily task, so a login prompt feels normal — that’s exactly why it was chosen.</li>
+        <li><span class="n">5</span><b>Link text that hides its destination.</b> Hover (or long-press on a phone) and the real address won’t match. Legitimate systems rarely ask you to “re-authenticate” through an emailed button.</li>
+      </ul>
+    </div>
+
+    <!-- Panel 2 -->
+    <div class="tab-panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" tabindex="0" hidden>
+      <div class="mail">
+        <div class="mail-head">
+          <div class="mail-row"><span class="k">From</span><span class="v">Payroll Services &lt;payroll@holmesglen-hr.com&gt; <span class="pin">1</span></span></div>
+          <div class="mail-row"><span class="k">To</span><span class="v">Staff Member</span></div>
+          <div class="mail-row"><span class="k">Subject</span><span class="v">Your October payslip is ready — action required before next pay run <span class="pin">2</span></span></div>
+        </div>
+        <div class="mail-body">
+          <p>Your October payslip is now available. Please also update your tax declaration in Banner HR/Payroll before the next pay run to avoid a delay to your pay. <span class="pin">3</span></p>
+          <p><a class="cta-fake" href="#0" onclick="return false;">View payslip</a> <span class="pin">4</span></p>
+        </div>
+      </div>
+      <ul class="flag-list">
+        <li><span class="n">1</span><b>Typosquatted domain.</b> “holmesglen-hr.com” is built to look official but isn’t the institute’s real address.</li>
+        <li><span class="n">2</span><b>Financial pressure.</b> Pay and tax create a strong pull to act quickly — attackers rely on it across every staff level.</li>
+        <li><span class="n">3</span><b>Unexpected deadline.</b> “Before the next pay run” manufactures urgency around something you weren’t expecting.</li>
+        <li><span class="n">4</span><b>Login-to-view trap.</b> You’re asked to sign in via an emailed link to “view” a document. Reach HR/payroll by typing the known address or using the staff intranet — never an email button.</li>
+      </ul>
+    </div>
+
+    <!-- Panel 3 -->
+    <div class="tab-panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" tabindex="0" hidden>
+      <div class="mail">
+        <div class="mail-head">
+          <div class="mail-row"><span class="k">From</span><span class="v">Cisco Webex &lt;no-reply@webex-holmesglen.com&gt; <span class="pin">1</span></span></div>
+          <div class="mail-row"><span class="k">To</span><span class="v">Staff Member</span></div>
+          <div class="mail-row"><span class="k">Subject</span><span class="v">You missed a Webex session from your Department Head — view recording <span class="pin">2</span></span></div>
+        </div>
+        <div class="mail-body">
+          <p>A scheduled Webex meeting was held without you. Your Department Head has shared the recording and agenda for review. <span class="pin">3</span></p>
+          <p><a class="cta-fake" href="#0" onclick="return false;">Sign in to view recording</a> <span class="pin">4</span></p>
+        </div>
+      </div>
+      <ul class="flag-list">
+        <li><span class="n">1</span><b>Display-name spoof.</b> The name says “Cisco Webex,” but the address is a look-alike (“webex-holmesglen.com”). Always read the full address, not just the name.</li>
+        <li><span class="n">2</span><b>Social pressure.</b> Implying your manager is waiting makes you act before you think.</li>
+        <li><span class="n">3</span><b>Blends into routine.</b> Frequent meetings make a “missed Webex” believable — which is the point.</li>
+        <li><span class="n">4</span><b>Credential request.</b> Webex uses your existing single sign-on; a recording link shouldn’t demand a fresh login. Check the meeting in your calendar or the Webex app instead.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Works every time</p>
+    <h2>🔍 A quick check for any message</h2>
+    <ul class="checklist">
+      <li><b>Unexpected and urgent.</b> A message you weren’t expecting that pushes you to click or act right now.</li>
+      <li><b>An address or link that’s slightly off.</b> A sender or web link altered a little from the real one.</li>
+      <li><b>Asks for your password or personal details.</b> Legitimate services don’t ask you to confirm these by email.</li>
+      <li><b>Something just feels wrong.</b> The tone, timing, formatting, or a greeting that isn’t really you.</li>
+      <li><b>An attachment you didn’t expect.</b> Especially if it wants you to “enable” something to open it.</li>
+      <li><b>Check before you click.</b> Hover over a link on a computer, or long-press on a phone, to see where it truly leads.</li>
+    </ul>
+    <p class="muted" style="margin-top:16px;">Based on guidance from the Australian Cyber Security Centre (cyber.gov.au).</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">If you spot one</p>
+    <h2>🛑 Stop, check, then report</h2>
+    <div class="steps">
+      <div class="step"><span class="s-no">1</span><div><h3>🛑 Stop</h3><p>Don’t click, don’t enter any details, and don’t reply. If you’ve already entered your password, <b>change it straight away</b> and tell IT — acting fast limits the damage.</p></div></div>
+      <div class="step"><span class="s-no">2</span><div><h3>🔎 Check</h3><p>If it might be genuine, don’t use the links or phone numbers <b>in the message</b>. Go to the known website or app yourself, or call the sender on a number you already trust.</p></div></div>
+      <div class="step"><span class="s-no">3</span><div><h3>📣 Report</h3><p>Forward it to <span class="ph">[Holmesglen IT — report address / “Report Phishing” button]</span>. You can also report to the ACSC via <b>ReportCyber</b> (cyber.gov.au/report), forward emails to <b>report@cyber.gov.au</b>, and send scam texts to <b>7726</b>.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Stay ahead of it</p>
+    <h2>🔐 Protect your account</h2>
+    <div class="protect">
+      <div class="item"><h3>🔑 Turn on multi-factor authentication</h3><p>The single most effective step. A stolen password alone won’t be enough to get in. Start with your email.</p></div>
+      <div class="item"><h3>🧩 Use long, unique passphrases</h3><p>Four or more random words — long, unpredictable, and never reused across accounts.</p></div>
+      <div class="item"><h3>🗝️ Use a password manager</h3><p>It creates and remembers strong, unique passphrases so you don’t have to.</p></div>
+      <div class="item"><h3>🔄 Keep devices updated</h3><p>Turn on automatic updates so known weaknesses are patched without you thinking about it.</p></div>
+    </div>
+    <p class="muted" style="margin-top:16px;">Recommendations from the Australian Cyber Security Centre (cyber.gov.au).</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Learn more</p>
+    <h2>📚 Trusted resources</h2>
+    <ul class="links">
+      <li><a href="https://www.cyber.gov.au/learn-basics/explore-basics/recognise-and-report-scams" target="_blank" rel="noopener noreferrer">Recognise and report scams<span>cyber.gov.au</span></a></li>
+      <li><a href="https://www.cyber.gov.au/protect-yourself/securing-your-accounts/passphrases" target="_blank" rel="noopener noreferrer">Creating strong passphrases<span>cyber.gov.au</span></a></li>
+      <li><a href="https://www.cyber.gov.au/mfa" target="_blank" rel="noopener noreferrer">Turn on multi-factor authentication<span>cyber.gov.au/mfa</span></a></li>
+      <li><a href="https://www.cyber.gov.au/report" target="_blank" rel="noopener noreferrer">Report a cybercrime (ReportCyber)<span>cyber.gov.au/report</span></a></li>
+      <li><a href="https://www.scamwatch.gov.au" target="_blank" rel="noopener noreferrer">National Anti-Scam Centre — Scamwatch<span>scamwatch.gov.au</span></a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="note">
+      <p><b>About this exercise.</b> This was an authorised phishing-awareness simulation conducted as part of a Holmesglen cyber security project. It was designed to help staff learn, not to catch anyone out. The details entered on the test page were not stored or used. Questions? Contact <span class="ph">[team / IT contact]</span>.</p>
+    </div>
+    <div class="refs">
+      <h3>Sources</h3>
+      Australian Cyber Security Centre — “Scams” (cyber.gov.au/scams)<br>
+      Australian Cyber Security Centre — “Recognise and report scams” (cyber.gov.au)<br>
+      Australian Cyber Security Centre — “Creating secure passphrases” (cyber.gov.au/protect-yourself/securing-your-accounts/passphrases)<br>
+      Australian Cyber Security Centre — “Easy steps to secure yourself online” / multi-factor authentication (cyber.gov.au)
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  (function(){
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    function select(tab){
+      tabs.forEach(function(t){
+        var selected = t === tab;
+        t.setAttribute('aria-selected', selected ? 'true' : 'false');
+        t.tabIndex = selected ? 0 : -1;
+        var panel = document.getElementById(t.getAttribute('aria-controls'));
+        if(panel) panel.hidden = !selected;
+      });
+    }
+    tabs.forEach(function(tab, i){
+      tab.addEventListener('click', function(){ select(tab); });
+      tab.addEventListener('keydown', function(e){
+        var idx = null;
+        if(e.key === 'ArrowRight' || e.key === 'ArrowDown') idx = (i+1) % tabs.length;
+        if(e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   idx = (i-1+tabs.length) % tabs.length;
+        if(e.key === 'Home') idx = 0;
+        if(e.key === 'End')  idx = tabs.length-1;
+        if(idx !== null){ e.preventDefault(); tabs[idx].focus(); select(tabs[idx]); }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
