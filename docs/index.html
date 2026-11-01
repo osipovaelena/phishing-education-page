@@ -211,13 +211,34 @@
     <p class="muted" style="margin-bottom:18px;">This is the email you received. Each number points to a warning sign. Use the buttons to see other examples.</p>
 
     <div class="tabs" role="tablist" aria-label="Phishing scenarios">
-      <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true">Attendance portal</button>
-      <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">Payroll / payslip</button>
-      <button class="tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">Webex invite</button>
+      <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true">Webex invite</button>
+      <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">Attendance portal</button>
+      <button class="tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">Payroll / payslip</button>
     </div>
 
     <!-- Panel 1 -->
     <div class="tab-panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" tabindex="0">
+      <div class="mail">
+        <div class="mail-head">
+          <div class="mail-row"><span class="k">From</span><span class="v">Cisco Webex &lt;no-reply@webex-holmesglen.com&gt; <span class="pin">1</span></span></div>
+          <div class="mail-row"><span class="k">To</span><span class="v">Staff Member</span></div>
+          <div class="mail-row"><span class="k">Subject</span><span class="v">You missed a Webex session from the Head of CAIT - view recording <span class="pin">2</span></span></div>
+        </div>
+        <div class="mail-body">
+          <p>A scheduled Webex meeting was held without you. The Head of CAIT has shared the recording and agenda for review. <span class="pin">3</span></p>
+          <p><a class="cta-fake" href="#0" onclick="return false;">View recording</a> <span class="pin">4</span></p>
+        </div>
+      </div>
+      <ul class="flag-list">
+        <li><span class="n">1</span><b>Fake name.</b> The name says “Cisco Webex”, but the address is a look-alike (“webex-holmesglen.com”). Always read the full address, not just the name.</li>
+        <li><span class="n">2</span><b>Social pressure.</b> Implying your manager is waiting makes you act before you think.</li>
+        <li><span class="n">3</span><b>Blends into routine.</b> Frequent online meetings make a “missed Webex” believable. This is exactly the point.</li>
+        <li><span class="n">4</span><b>Login request.</b> Webex already signs you in with your normal Holmesglen login. A recording link shouldn’t demand a new login. Check the meeting on the Webex app or in your calendar instead.</li>
+      </ul>
+    </div>
+
+    <!-- Panel 2 -->
+    <div class="tab-panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" tabindex="0" hidden>
       <div class="mail">
         <div class="mail-head">
           <div class="mail-row"><span class="k">From</span><span class="v">Holmesglen IT Services &lt;notifications@my-holmesglen-portal.com&gt; <span class="pin">1</span></span></div>
@@ -239,8 +260,8 @@
       </ul>
     </div>
 
-    <!-- Panel 2 -->
-    <div class="tab-panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" tabindex="0" hidden>
+    <!-- Panel 3 -->
+    <div class="tab-panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" tabindex="0" hidden>
       <div class="mail">
         <div class="mail-head">
           <div class="mail-row"><span class="k">From</span><span class="v">Payroll Services &lt;payroll@holmesglen-hr.com&gt; <span class="pin">1</span></span></div>
@@ -257,27 +278,6 @@
         <li><span class="n">2</span><b>Financial pressure.</b> Pay and tax create a strong pull to act quickly. Scammers know everyone cares about their pay.</li>
         <li><span class="n">3</span><b>Unexpected deadline.</b> “Before the next pay run” creates urgency around something you weren’t expecting.</li>
         <li><span class="n">4</span><b>Login-to-update trap.</b> You’re asked to sign in via an emailed link to “update” a document. Always reach HR/Payroll by typing the known address or using the staff intranet. Never click an email button.</li>
-      </ul>
-    </div>
-
-    <!-- Panel 3 -->
-    <div class="tab-panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" tabindex="0" hidden>
-      <div class="mail">
-        <div class="mail-head">
-          <div class="mail-row"><span class="k">From</span><span class="v">Cisco Webex &lt;no-reply@webex-holmesglen.com&gt; <span class="pin">1</span></span></div>
-          <div class="mail-row"><span class="k">To</span><span class="v">Staff Member</span></div>
-          <div class="mail-row"><span class="k">Subject</span><span class="v">You missed a Webex session from the Head of CAIT - view recording <span class="pin">2</span></span></div>
-        </div>
-        <div class="mail-body">
-          <p>A scheduled Webex meeting was held without you. The Head of CAIT has shared the recording and agenda for review. <span class="pin">3</span></p>
-          <p><a class="cta-fake" href="#0" onclick="return false;">View recording</a> <span class="pin">4</span></p>
-        </div>
-      </div>
-      <ul class="flag-list">
-        <li><span class="n">1</span><b>Fake name.</b> The name says “Cisco Webex”, but the address is a look-alike (“webex-holmesglen.com”). Always read the full address, not just the name.</li>
-        <li><span class="n">2</span><b>Social pressure.</b> Implying your manager is waiting makes you act before you think.</li>
-        <li><span class="n">3</span><b>Blends into routine.</b> Frequent online meetings make a “missed Webex” believable. This is exactly the point.</li>
-        <li><span class="n">4</span><b>Login request.</b> Webex already signs you in with your normal Holmesglen login. A recording link shouldn’t demand a new login. Check the meeting on the Webex app or in your calendar instead.</li>
       </ul>
     </div>
   </section>
